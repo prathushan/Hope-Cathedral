@@ -2,11 +2,75 @@
   export let data;
 
   const content = data.page.content;
+
   const heroBlock = content.find(c => c._type === 'builderBlock' && c.block[0]?._type === 'heroSection')?.block[0];
   const cardBlock = content.find(c => c._type === 'builderBlock' && c.block[0]?._type === 'cardSection')?.block[0];
+  const imageWithTextBlock = content.find(c => c._type === 'builderBlock' && c.block[0]?._type === 'imageWithText')?.block[0];
 
   const videoId = heroBlock?.videoEmbedCode?.split('/').pop();
+  const sideVideoId = imageWithTextBlock?.videoEmbed?.split('/').pop()?.split('?')[0];
 </script>
+
+
+
+<!-- VIDEO BACKGROUND -->
+{#if videoId}
+  <div class="video-wrapper">
+    <div class="video-inner">
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${videoId}&playsinline=1`}
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+      ></iframe>
+
+      {#if heroBlock}
+        <div class="hero-content">
+          <h1>{heroBlock.title}</h1>
+          {#if heroBlock.buttons?.length}
+            <button>{heroBlock.buttons[0].text}</button>
+          {/if}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/if}
+
+<!-- HERO SECTION -->
+
+
+<!-- CARD SECTION -->
+{#if cardBlock}
+  <section class="card-section">
+    <div class="card-grid">
+      {#each cardBlock.cards as card}
+        <div class="card">
+          <h3>{card.title}</h3>
+          <p>{card.paragraph}</p>
+          <a href={card.button.slug.current}>{card.button.text}</a>
+        </div>
+      {/each}
+    </div>
+  </section>
+{/if}
+
+<!-- {#if imageWithTextBlock}
+  <section class="image-with-text">
+    <div class="video-column">
+      <iframe
+        src={`https://www.youtube.com/embed/${sideVideoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playsinline=1`}
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <div class="text-column">
+      <h2>{imageWithTextBlock.title}</h2>
+      <p>{imageWithTextBlock.description}</p>
+    </div>
+  </section>
+{/if} -->
+
 
 <style>
 
@@ -111,45 +175,48 @@
     border-radius: 8px;
     font-weight: 500;
   }
+  .image-with-text {
+    background-color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  /* max-width: 1200px; */
+  margin: 0 auto;
+}
+
+.video-column {
+  flex: 1 1 500px;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.video-column iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.text-column {
+  flex: 1 1 400px;
+}
+
+.text-column h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.text-column p {
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.6;
+}
+
 </style>
-
-<!-- VIDEO BACKGROUND -->
-{#if videoId}
-  <div class="video-wrapper">
-    <div class="video-inner">
-      <iframe
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${videoId}&playsinline=1`}
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-      ></iframe>
-
-      {#if heroBlock}
-        <div class="hero-content">
-          <h1>{heroBlock.title}</h1>
-          {#if heroBlock.buttons?.length}
-            <button>{heroBlock.buttons[0].text}</button>
-          {/if}
-        </div>
-      {/if}
-    </div>
-  </div>
-{/if}
-
-<!-- HERO SECTION -->
-
-
-<!-- CARD SECTION -->
-{#if cardBlock}
-  <section class="card-section">
-    <div class="card-grid">
-      {#each cardBlock.cards as card}
-        <div class="card">
-          <h3>{card.title}</h3>
-          <p>{card.paragraph}</p>
-          <a href={card.button.slug.current}>{card.button.text}</a>
-        </div>
-      {/each}
-    </div>
-  </section>
-{/if}
