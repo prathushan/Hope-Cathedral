@@ -71,7 +71,6 @@
   </section>
 {/if} -->
 
-
 <style>
 
 .video-wrapper {
