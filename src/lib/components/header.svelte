@@ -1,4 +1,3 @@
-<!-- /src/lib/components/header.svelte -->
 <script lang="ts">
   import { urlFor } from '../utils/image-builder';
   export let menu: any;
@@ -31,7 +30,6 @@
           <a href={"/" + (item.slug?.current ?? '')}>
             {item.title}
           </a>
-
           {#if item.hasSubmenu}
             <ul class="submenu">
               {#each item.submenuItems as sub}
@@ -49,16 +47,18 @@
   </nav>
 </header>
 
-
-
 <style>
   .header {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .logo {
@@ -79,11 +79,10 @@
 
   .menu-item a {
     text-decoration: none;
-    color: #333;
+    color: white;
     font-weight: 500;
   }
 
-  /* Arrow for items with submenu */
   .menu-item.has-submenu > a::after {
     content: "";
     display: inline-block;
@@ -91,7 +90,7 @@
     vertical-align: middle;
     border-style: solid;
     border-width: 5px 5px 0 5px;
-    border-color: #333 transparent transparent transparent;
+    border-color: white transparent transparent transparent;
   }
 
   .has-submenu .submenu {
@@ -100,7 +99,6 @@
     top: 100%;
     left: 0;
     background-color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 0;
     list-style: none;
     min-width: 200px;

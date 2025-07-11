@@ -4,7 +4,7 @@
 
   export let footerData: any;
 
-  console.log('footerData:', footerData);
+  // console.log('footerData:', footerData);
 
   const logo = footerData?.footerLogo;
   const menus = footerData?.footerMenus ?? [];

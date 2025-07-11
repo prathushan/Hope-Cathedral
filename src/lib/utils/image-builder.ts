@@ -1,3 +1,5 @@
+// /src/lib/utils/image-builder.ts
+
 import imageUrlBuilder from '@sanity/image-url';
 import { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } from '$env/static/public';
 import { createClient } from '@sanity/client';
