@@ -59,6 +59,7 @@
     backdrop-filter: blur(12px);
     background: rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    Z-index:1000;
   }
 
   .logo {
