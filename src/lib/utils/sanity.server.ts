@@ -6,5 +6,5 @@ export const serverClient = createClient({
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
   apiVersion: '2023-03-20',
-  useCdn: false,
+  useCdn: true,
 });
