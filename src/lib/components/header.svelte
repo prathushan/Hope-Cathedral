@@ -79,8 +79,9 @@
 
   .menu-item a {
     text-decoration: none;
-    color: white;
-    font-weight: 500;
+    color: #226DAB;
+    font-size:1rem;
+    /* font-weight: 500; */
   }
 
   .menu-item.has-submenu > a::after {

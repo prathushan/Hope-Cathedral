@@ -1,5 +1,5 @@
 <!-- src/routes/[...slug]/+page.svelte -->
-<script lang="ts">
+<!-- <script lang="ts">
   import { page } from '$app/stores'; // ← triggers reactive updates
   export let data;
   const { page: pageData } = data;
@@ -8,13 +8,13 @@
 </script>
 
 <svelte:head>
-  <title>{pageData.title}</title> <!-- ✅ This should be dynamic -->
+  <title>{pageData.title}</title> 
 </svelte:head>
 
-<h1>{pageData.title}</h1>
+<h1>{pageData.title}</h1> -->
 
 <!-- Display content -->
-{#each pageData.content as section (section._key)}
+<!-- {#each pageData.content as section (section._key)}
   {#if section.block[0]._type === 'heroSection'}
     <section class="hero-section">
       {@html section.block[0].videoEmbedCode}
@@ -35,4 +35,4 @@
       </div>
     </section>
   {/if}
-{/each}
+{/each} -->
