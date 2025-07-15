@@ -1,3 +1,4 @@
+
 <!-- src/routes/[...slug]/+page.svelte -->
 <!-- <script lang="ts">
   import { page } from '$app/stores'; // ← triggers reactive updates
@@ -36,3 +37,4 @@
     </section>
   {/if}
 {/each} -->
+
