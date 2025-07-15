@@ -6,7 +6,7 @@
   import '../app.css'
 </script>
 
-<Header menu={data.menu} />
+<Header menu={data.menu} liveService={data.liveService} />
 <main>
   <slot />
 </main>

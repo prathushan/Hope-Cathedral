@@ -6,5 +6,5 @@ export const client = createClient({
   projectId: PUBLIC_SANITY_PROJECT_ID,
   dataset: PUBLIC_SANITY_DATASET,
   apiVersion: '2023-03-20',
-  useCdn: true // enables CDN cache — fast, good for public reads
+  useCdn:false // enables CDN cache — fast, good for public reads
 });
