@@ -140,6 +140,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
 <!-- CARD SECTION 2 -->
 <!-- CARD SECTION 3 -->
 <!-- CARD SECTION 2 -->
+<!-- CARD SECTION 2 -->
 {#if cardSection2}
   <section class="card-section-2">
     <h2 class="card-grid-max">{cardSection2.sectionTitle}</h2>
@@ -387,82 +388,106 @@ font-weight: 700;
 }
 
 
-/* card-section-2 */
-.card-section-2 {
-  background-color: #fff;
-  padding: 4rem 1.5rem;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.card-section-2 h2 {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  color:#226DAB;
-  max-width: 1200px;
-   margin: 0 auto;
-    padding-bottom: 25px;
-}
-
-.card-section-2 .card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 1.5rem;
-      max-width: 1200px;
+ /* card-section-2 */
+  .card-section-2 {
+    background-color: #fff;
+    padding: 4rem 1.5rem;
+    max-width: 100%;
     margin: 0 auto;
-   
-}
+  }
 
-.card-section-2 .card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-  position: relative;
-  transition: box-shadow 0.2s ease;
-}
-.card-section-2 a.card {
-  text-decoration: none;
-  color: inherit;
-}
+  .card-section-2 h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color:#226DAB;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 25px;
+  }
 
+  .card-section-2 .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 
-.card-section-2 .card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
+  .card-section-2 .card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .card-section-2 a.card {
+    text-decoration: none;
+    color: inherit;
+  }
 
-.card-section-2 .card::after {
-  content: '';
-  background: url('data:image/svg+xml,<svg fill="none" stroke="%23226DAB" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7"/></svg>');
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  right: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  .card-section-2 .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background: #226DAB;
+    transition: all 0.4s ease;
+    z-index: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
 
+  .card-section-2 .card:hover::before {
+    width: 600px;
+    height: 600px;
+    opacity: 0.1;
+  }
 
-.card-section-2 .card h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #226DAB;
-  margin: 0 0 0.25rem;
-}
+  .card-section-2 .card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
 
-.card-section-2 .card p {
-  font-size: 0.95rem;
-  color: #333;
-  margin: 0;
-  line-height: 1.5;
-}
+  .card-section-2 .card::after {
+    content: '';
+    background: url('data:image/svg+xml,<svg fill="none" stroke="%23226DAB" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  .card-section-2 .card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #226DAB;
+    margin: 0 0 0.25rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-section-2 .card p {
+    font-size: 0.9rem;
+    color: #333;
+    margin: 0;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
 
 
   /* carousel styles */
