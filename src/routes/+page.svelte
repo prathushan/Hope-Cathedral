@@ -87,7 +87,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
         allowfullscreen
         title="hero-video"
       ></iframe>
-
+      
       {#if heroBlock}
         <div class="hero-content">
           <h1>{heroBlock.title}</h1>
@@ -163,7 +163,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
 
 {#if carouselBlock}
   <section class="carousel-section">
-    <!-- <h2>{carouselBlock.sectionTitle}</h2> -->
+    <h2>{carouselBlock.sectionTitle}</h2>
     <div class="carousel-container" on:mouseenter={pauseAutoScroll} on:mouseleave={resumeAutoScroll} >
       <div class="carousel">
         {#each carouselBlock.cards as card, index (index)}
@@ -232,7 +232,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
   position: sticky;
   top: 0;
   width: 100%;
-  height: 110vh;
+  height: 105vh;
   z-index: -1;
   overflow: hidden;
 }
@@ -249,7 +249,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
   left: 50%;
   width: 100vw;
   height: 56.25vw;
-  min-height: 110vh;
+  min-height: 105vh;
   min-width: 177.77vh;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -325,14 +325,14 @@ font-weight: 700;
 
   .card-section  .card p {
     font-size: 1rem;
-    color: #fff;
+    color: #ffffff;
     margin-bottom: 1.5rem;
   }
 
   .card-section  .card a {
     padding: 0.8rem 1.6rem;
     background: #fff;
-    color: #000;
+    color: #226DAB;
     text-decoration: none;
     border-radius: 8px;
     font-weight: 500;
@@ -374,8 +374,10 @@ font-weight: 700;
 }
 
 .text-column h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
+  color:#226DAB;
+  text-transform:uppercase;
 }
 
 .text-column p {
@@ -396,7 +398,7 @@ font-weight: 700;
 .card-section-2 h2 {
   font-size: 1.5rem;
   margin-bottom: 2rem;
-  color: #1a1a1a;
+  color:#226DAB;
   max-width: 1200px;
    margin: 0 auto;
     padding-bottom: 25px;
@@ -436,7 +438,7 @@ font-weight: 700;
 
 .card-section-2 .card::after {
   content: '';
-  background: url('data:image/svg+xml,<svg fill="none" stroke="%23006bff" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7"/></svg>');
+  background: url('data:image/svg+xml,<svg fill="none" stroke="%23226DAB" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7"/></svg>');
   background-repeat: no-repeat;
   background-position: center;
   width: 24px;
@@ -447,10 +449,11 @@ font-weight: 700;
   transform: translateY(-50%);
 }
 
+
 .card-section-2 .card h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #0046c0;
+  color: #226DAB;
   margin: 0 0 0.25rem;
 }
 
@@ -465,9 +468,13 @@ font-weight: 700;
   /* carousel styles */
   .carousel-section {
     background-color: #fff;
-    padding: 4rem 1.5rem;
+    padding: 1rem 1.5rem;
     text-align: center;
     position: relative;
+  }
+  .carousel-section h2{
+    color:#226DAB;
+    font-size:1.5rem;
   }
 
 
@@ -614,7 +621,7 @@ font-weight: 700;
   /* .carousel-buttons button {
     padding: 0.5rem 1rem;
     background: #333;
-    color: white;
+    color:#ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -625,7 +632,7 @@ font-weight: 700;
     background: #555;
   } */
   .arrow-button {
-  background: #f9ab18;
+  background: #226DAB;
   border: none;
   border-radius: 50%;
   width: 48px;
@@ -642,7 +649,7 @@ font-weight: 700;
 .arrow-icon {
   width: 24px;
   height: 24px;
-  stroke: #333;
+  stroke: #ffffff;
 }
 
   /* ========== Responsive Styles ========== */
