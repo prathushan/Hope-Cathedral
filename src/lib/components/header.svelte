@@ -59,6 +59,7 @@
     backdrop-filter: blur(12px);
     background: rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    Z-index:1000;
   }
 
   .logo {
@@ -79,8 +80,9 @@
 
   .menu-item a {
     text-decoration: none;
-    color: white;
-    font-weight: 500;
+    color: #226DAB;
+    font-size:1rem;
+    /* font-weight: 500; */
   }
 
   .menu-item.has-submenu > a::after {

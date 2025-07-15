@@ -1,3 +1,25 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('/Inter-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hope-GT-US-Regular';
+  src: url('/Hope-cathedral-US-Standard-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+    font-family: 'Inter', 'Hope-GT-US-Regular' ,sans-serif;
+    background-color: #fff;
+  }
+
+
 html,
 body {
   padding: 0;
@@ -8,11 +30,15 @@ html {
   scroll-snap-type: y proximity;
 }
 
-body {
-  font-family: system-ui;
-
-}
-
 * {
   box-sizing: border-box;
 }
+p,nav{
+  font-family: 'Hope-GT-US-Regular' ,Roboto, sans-serif;
+}
+
+
+
+
+
+
