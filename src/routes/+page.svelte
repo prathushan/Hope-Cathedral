@@ -1,15 +1,14 @@
-
 <script lang="ts">
   import { urlFor } from '../lib/utils/image-builder'; 
   export let data;
   import { onMount } from 'svelte';
-
 
   const carouselBlock = data.page.content.find(
     c => c.label === 'card section 3'
   )?.block[0];
 
   let selectedIndex = 0;
+  let userInteracted = false;
 
   function mod(n: number, m: number) {
     return ((n % m) + m) % m;
@@ -28,16 +27,31 @@
 
   let autoScrollInterval: NodeJS.Timeout;
 
+  function handleUserInteraction() {
+    if (!userInteracted) {
+      userInteracted = true;
+      window.removeEventListener('scroll', handleUserInteraction);
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+    }
+  }
+
   onMount(() => {
     autoScrollInterval = setInterval(() => {
       moveToSelected('next');
     }, 3000);
 
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('scroll', handleUserInteraction);
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('touchstart', handleUserInteraction);
 
     return () => {
       clearInterval(autoScrollInterval);
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleUserInteraction);
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
     };
   });
 
@@ -52,13 +66,12 @@
   }
 
   function handleKeyDown(e: KeyboardEvent) {
+    handleUserInteraction();
     switch (e.key) {
       case 'ArrowLeft': moveToSelected('prev'); break;
       case 'ArrowRight': moveToSelected('next'); break;
     }
   }
-
-   
 
   const content = data.page.content;
 
@@ -68,25 +81,26 @@
 
   const videoId = heroBlock?.videoEmbedCode?.split('/').pop();
   const sideVideoId = imageWithTextBlock?.videoEmbed?.split('/').pop()?.split('?')[0];
-const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.block[0];
+  const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.block[0];
 
- 
 </script>
-
-
-
 
 <!-- VIDEO BACKGROUND -->
 {#if videoId}
   <div class="video-wrapper">
     <div class="video-inner">
-      <iframe
-        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${videoId}&playsinline=1`}
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-        title="hero-video"
-      ></iframe>
+      {#if userInteracted}
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${videoId}&playsinline=1`}
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          title="hero-video"
+          loading="lazy"
+        ></iframe>
+      {:else}
+        <div class="video-placeholder" style={`background-image: url(https://img.youtube.com/vi/${videoId}/maxresdefault.jpg)`}></div>
+      {/if}
       
       {#if heroBlock}
         <div class="hero-content">
@@ -101,7 +115,6 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
 {/if}
 
 <!-- HERO SECTION -->
-
 
 <!-- CARD SECTION -->
 {#if cardBlock}
@@ -121,14 +134,18 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
 {#if imageWithTextBlock}
   <section class="image-with-text">
     <div class="video-column">
-      <iframe
-        src={`https://www.youtube-nocookie.com/embed/${sideVideoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${sideVideoId}&playsinline=1`}
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-        title="second-video"
-      ></iframe>
-
+      {#if userInteracted}
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${sideVideoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${sideVideoId}&playsinline=1`}
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          title="second-video"
+          loading="lazy"
+        ></iframe>
+      {:else}
+        <div class="video-placeholder" style={`background-image: url(https://img.youtube.com/vi/${sideVideoId}/maxresdefault.jpg)`}></div>
+      {/if}
     </div>
     <div class="text-column">
       <h2>{imageWithTextBlock.title}</h2>
@@ -137,9 +154,6 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
   </section>
 {/if}
 
-<!-- CARD SECTION 2 -->
-<!-- CARD SECTION 3 -->
-<!-- CARD SECTION 2 -->
 <!-- CARD SECTION 2 -->
 {#if cardSection2}
   <section class="card-section-2">
@@ -165,7 +179,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
 {#if carouselBlock}
   <section class="carousel-section">
     <h2>{carouselBlock.sectionTitle}</h2>
-    <div class="carousel-container" on:mouseenter={pauseAutoScroll} on:mouseleave={resumeAutoScroll} >
+    <div class="carousel-container" on:mouseenter={pauseAutoScroll} on:mouseleave={resumeAutoScroll}>
       <div class="carousel">
         {#each carouselBlock.cards as card, index (index)}
           <div
@@ -206,98 +220,99 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
         {/each}
       </div>
       <div class="carousel-buttons">
-  <button class="arrow-button" on:click={() => moveToSelected('prev')} aria-label="Previous">
-    <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <polyline points="15 18 9 12 15 6" />
-    </svg>
-  </button>
-  <button class="arrow-button" on:click={() => moveToSelected('next')} aria-label="Next">
-    <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <polyline points="9 18 15 12 9 6" />
-    </svg>
-  </button>
-</div>
+        <button class="arrow-button" on:click={() => moveToSelected('prev')} aria-label="Previous">
+          <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <button class="arrow-button" on:click={() => moveToSelected('next')} aria-label="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
     </div>
   </section>
 {/if}
 
-
-
-
-
-
 <style>
+  .video-wrapper {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 130vh;
+    z-index: -1;
+    overflow: hidden;
+  }
 
+  .video-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
-.video-wrapper {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 105vh;
-  z-index: -1;
-  overflow: hidden;
-}
+  .video-inner iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw;
+    min-height: 60vh;
+    min-width: 177.77vh;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
 
-.video-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+  .video-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw;
+    min-height: 60vh;
+    min-width: 177.77vh;
+    transform: translate(-50%, -50%);
+    background-size: cover;
+    background-position: center;
+  }
 
-.video-inner iframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100vw;
-  height: 56.25vw;
-  min-height: 105vh;
-  min-width: 177.77vh;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
+  .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    text-align: center;
+    color: white;
+  }
 
-.hero-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  text-align: center;
-  color: white;
-  /* padding: 2rem; */
-}
+  .hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 60px;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    text-transform: uppercase;
+  }
 
-.hero-content h1 {
-  font-size: 3rem;
-/* font-weight: bold; */
-font-weight: 700;
-  line-height: 60px;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
-}
-
-.hero-content button {
-  /* font-family: 'Hope-GT-US-Bold'; */
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  font-weight:500;
-  background: #226DAB;
-  backdrop-filter: blur(8px);
-  color: #FFF;
-  border: 1px solid #FFF;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
+  .hero-content button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight:500;
+    background: #226DAB;
+    backdrop-filter: blur(8px);
+    color: #FFF;
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    cursor: pointer;
+  }
 
   .card-section {
     padding: 6rem 1.5rem 4rem;
-    /* background: #f8f8f8; */
     z-index: 2;
   }
 
-  .card-section  .card-grid {
+  .card-section .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 2rem;
@@ -314,23 +329,23 @@ font-weight: 700;
     min-height: 280px;
   }
 
-  .card-section  .card:hover {
+  .card-section .card:hover {
     transform: translateY(-5px);
   }
 
-  .card-section  .card h2 {
+  .card-section .card h2 {
     font-size: 1.5rem;
     color:#fff;
     margin-bottom: 1rem;
   }
 
-  .card-section  .card p {
+  .card-section .card p {
     font-size: 1rem;
     color: #ffffff;
     margin-bottom: 1.5rem;
   }
 
-  .card-section  .card a {
+  .card-section .card a {
     padding: 0.8rem 1.6rem;
     background: #fff;
     color: #226DAB;
@@ -339,56 +354,53 @@ font-weight: 700;
     font-weight: 500;
     margin-top:20px;
     display:inline-block;
-    /* border:2px solid #f9ab18; */
   }
+
   .image-with-text {
     background-color: #fff;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 2rem;
-  padding: 4rem 2rem;
-  /* max-width: 1200px; */
-  margin: 0 auto;
-}
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem;
+    padding: 4rem 2rem;
+    margin: 0 auto;
+  }
 
-.video-column {
-  flex: 1 1 500px;
-  position: relative;
-  padding-bottom: 30.25%; /* 16:9 */
-  height: 0;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
+  .video-column {
+    flex: 1 1 500px;
+    position: relative;
+    padding-bottom: 30.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
 
-.video-column iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+  .video-column iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 
-.text-column {
-  flex: 1 1 400px;
-}
+  .text-column {
+    flex: 1 1 400px;
+  }
 
-.text-column h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color:#226DAB;
-  text-transform:uppercase;
-}
+  .text-column h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color:#226DAB;
+    text-transform:uppercase;
+  }
 
-.text-column p {
-  font-size: 1.1rem;
-  color: #444;
-  line-height: 1.6;
-}
+  .text-column p {
+    font-size: 1.1rem;
+    color: #444;
+    line-height: 1.6;
+  }
 
-
- /* card-section-2 */
   .card-section-2 {
     background-color: #fff;
     padding: 4rem 1.5rem;
@@ -489,8 +501,6 @@ font-weight: 700;
     z-index: 1;
   }
 
-
-  /* carousel styles */
   .carousel-section {
     background-color: #fff;
     padding: 1rem 1.5rem;
@@ -501,7 +511,6 @@ font-weight: 700;
     color:#226DAB;
     font-size:1.5rem;
   }
-
 
   .carousel-container {
     position: relative;
@@ -643,41 +652,25 @@ font-weight: 700;
     padding:10px;
   }
 
-  /* .carousel-buttons button {
-    padding: 0.5rem 1rem;
-    background: #333;
-    color:#ffffff;
+  .arrow-button {
+    background: #226DAB;
     border: none;
-    border-radius: 4px;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease;
   }
 
-  .carousel-buttons button:hover {
-    background: #555;
-  } */
-  .arrow-button {
-  background: #226DAB;
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-
-.arrow-icon {
-  width: 24px;
-  height: 24px;
-  stroke: #ffffff;
-}
-
-  /* ========== Responsive Styles ========== */
+  .arrow-icon {
+    width: 24px;
+    height: 24px;
+    stroke: #ffffff;
+  }
 
   @media (max-width: 1024px) {
     .prevLeftSecond,
@@ -710,6 +703,4 @@ font-weight: 700;
       display: none !important;
     }
   }
-
-
 </style>
