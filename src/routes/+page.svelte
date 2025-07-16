@@ -198,7 +198,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
                 <h3>{card.title}</h3>
                 <p>{card.paragraph}</p>
                 {#if card.button}
-                  <a href={card.button.slug.current}>Learn More</a>
+                  <a href={card.button.slug.current}>{card.title}</a>
                 {/if}
               </div>
             </div>
