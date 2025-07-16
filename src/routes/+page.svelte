@@ -109,7 +109,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
     <div class="card-grid">
       {#each cardBlock.cards as card}
         <div class="card">
-          <h3>{card.title}</h3>
+          <h2>{card.title}</h2>
           <p>{card.paragraph}</p>
           <a href={card.button.slug.current}>{card.button.text}</a>
         </div>
@@ -318,7 +318,7 @@ font-weight: 700;
     transform: translateY(-5px);
   }
 
-  .card-section  .card h3 {
+  .card-section  .card h2 {
     font-size: 1.5rem;
     color:#fff;
     margin-bottom: 1rem;
