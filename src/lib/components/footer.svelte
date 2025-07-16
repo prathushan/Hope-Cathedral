@@ -72,13 +72,21 @@
   {/if}
 
   {#if footerData?.socialLinks?.length}
-    <div class="footer-social">
-      {#each footerData.socialLinks as social}
-        <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.platform}>
-          <i class={`fab fa-${social.iconName}`}></i>
-        </a>
-      {/each}
-    </div>
+   <div class="footer-social">
+  {#each footerData.socialLinks as social}
+    {#if social.url}
+      <a
+        href={social.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={social.platform}
+      >
+        <i class={`fab fa-${social.iconName}`}></i>
+      </a>
+    {/if}
+  {/each}
+</div>
+
   {/if}
 
   {#if footerData?.copyrightText}
