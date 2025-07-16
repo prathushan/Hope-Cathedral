@@ -81,7 +81,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
   <div class="video-wrapper">
     <div class="video-inner">
       <iframe
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${videoId}&playsinline=1`}
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${videoId}&playsinline=1`}
         frameborder="0"
         allow="autoplay; encrypted-media"
         allowfullscreen
@@ -122,7 +122,7 @@ const cardSection2 = data.page.content.find(c => c.label === 'card section 2')?.
   <section class="image-with-text">
     <div class="video-column">
       <iframe
-        src={`https://www.youtube.com/embed/${sideVideoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${sideVideoId}&playsinline=1`}
+        src={`https://www.youtube-nocookie.com/embed/${sideVideoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${sideVideoId}&playsinline=1`}
         frameborder="0"
         allow="autoplay; encrypted-media"
         allowfullscreen
