@@ -37,6 +37,9 @@
     {#each menus as menu}
       <div class="footer-menu">
         <h4>{menu.menuTitle}</h4>
+        <nav>
+
+
         <ul>
           {#each menu.links as link}
             <li>
@@ -46,6 +49,8 @@
             </li>
           {/each}
         </ul>
+
+        </nav>
       </div>
     {/each}
   </div>
@@ -154,7 +159,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size:14px;
+    font-size:16px;
   }
 
   .footer-menu li {
