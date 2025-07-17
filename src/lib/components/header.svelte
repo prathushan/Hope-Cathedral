@@ -14,10 +14,24 @@
 
   const sizes = '(max-width: 600px) 100px, 150px';
 
+  // Current values
   let days = 0;
   let hours = 0;
   let minutes = 0;
   let seconds = 0;
+  
+  // Track displayed values (will update after animation)
+  let displayDays = 0;
+  let displayHours = 0;
+  let displayMinutes = 0;
+  let displaySeconds = 0;
+  
+  // Animation states
+  let animateDays = false;
+  let animateHours = false;
+  let animateMinutes = false;
+  let animateSeconds = false;
+  
   let timer;
 
   const calculateCountdown = () => {
@@ -28,10 +42,45 @@
     const distance = target - now;
 
     if (distance > 0) {
-      days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      // Calculate new values
+      const newDays = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const newHours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const newMinutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const newSeconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Trigger animations when values change
+      if (newSeconds !== seconds) {
+        seconds = newSeconds;
+        animateSeconds = true;
+        setTimeout(() => {
+          displaySeconds = seconds;
+          animateSeconds = false;
+        }, 300);
+      }
+      if (newMinutes !== minutes) {
+        minutes = newMinutes;
+        animateMinutes = true;
+        setTimeout(() => {
+          displayMinutes = minutes;
+          animateMinutes = false;
+        }, 300);
+      }
+      if (newHours !== hours) {
+        hours = newHours;
+        animateHours = true;
+        setTimeout(() => {
+          displayHours = hours;
+          animateHours = false;
+        }, 300);
+      }
+      if (newDays !== days) {
+        days = newDays;
+        animateDays = true;
+        setTimeout(() => {
+          displayDays = days;
+          animateDays = false;
+        }, 300);
+      }
     } else {
       clearInterval(timer);
     }
@@ -60,10 +109,49 @@
       <div class="countdown">
         <h2 class="countdown-title">{liveService.title}</h2>
         <div class="time-boxes">
-          <div class="time-box"><span class="value">{days}</span><span class="label">DAYS</span></div>
-          <div class="time-box"><span class="value">{hours}</span><span class="label">HRS</span></div>
-          <div class="time-box"><span class="value">{minutes}</span><span class="label">MINS</span></div>
-          <div class="time-box"><span class="value">{seconds}</span><span class="label">SECS</span></div>
+          <!-- Days -->
+          <div class="time-box">
+            <div class="flip-card {animateDays ? 'flipping' : ''}">
+              <div class="flip-card-inner">
+                <div class="flip-card-front"><span class="value">{displayDays}</span></div>
+                <div class="flip-card-back"><span class="value">{days}</span></div>
+              </div>
+            </div>
+            <span class="label">DAYS</span>
+          </div>
+          
+          <!-- Hours -->
+          <div class="time-box">
+            <div class="flip-card {animateHours ? 'flipping' : ''}">
+              <div class="flip-card-inner">
+                <div class="flip-card-front"><span class="value">{displayHours}</span></div>
+                <div class="flip-card-back"><span class="value">{hours}</span></div>
+              </div>
+            </div>
+            <span class="label">HRS</span>
+          </div>
+          
+          <!-- Minutes -->
+          <div class="time-box">
+            <div class="flip-card {animateMinutes ? 'flipping' : ''}">
+              <div class="flip-card-inner">
+                <div class="flip-card-front"><span class="value">{displayMinutes}</span></div>
+                <div class="flip-card-back"><span class="value">{minutes}</span></div>
+              </div>
+            </div>
+            <span class="label">MINS</span>
+          </div>
+          
+          <!-- Seconds -->
+          <div class="time-box">
+            <div class="flip-card {animateSeconds ? 'flipping' : ''}">
+              <div class="flip-card-inner">
+                <div class="flip-card-front"><span class="value">{displaySeconds}</span></div>
+                <div class="flip-card-back"><span class="value">{seconds}</span></div>
+              </div>
+            </div>
+            <span class="label">SECS</span>
+          </div>
         </div>
       </div>
     {/if}
@@ -94,6 +182,45 @@
 </header>
 
 <style>
+  /* Existing styles remain the same until the flip card section */
+
+  /* Flip card styles */
+  .flip-card {
+    perspective: 1000px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .flip-card.flipping .flip-card-inner {
+    transform: rotateX(180deg);
+  }
+
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e0e0e0;
+    border-radius: 6px;
+  }
+
+  .flip-card-back {
+    transform: rotateX(180deg);
+  }
+
+  /* Rest of the existing styles remain unchanged */
   .header {
     position: fixed;
     width: 100%;
@@ -138,9 +265,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #e0e0e0;
-    padding: 0.2rem 0.2rem;
-    border-radius: 6px;
     min-width: 50px;
   }
 
@@ -153,6 +277,7 @@
   .time-box .label {
     font-size: 0.75rem;
     color: #555;
+    margin-top: 0.2rem;
   }
 
   .nav .menu {
@@ -183,8 +308,12 @@
     border-color: #226DAB transparent transparent transparent;
   }
 
+  .has-submenu {
+    position: relative;
+    overflow: visible;
+  }
+
   .has-submenu .submenu {
-    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -193,10 +322,19 @@
     list-style: none;
     min-width: 200px;
     z-index: 100;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transform-origin: center top;
+    clip-path: inset(50% 0 50% 0);
+    opacity: 0;
+    transition: clip-path 0.4s ease, opacity 0.3s ease;
+    pointer-events: none;
   }
 
   .has-submenu:hover .submenu {
-    display: block;
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .submenu li {
@@ -204,14 +342,15 @@
   }
 
   .submenu li a {
-    color: #ffffff;
-    text-decoration: none;
     display: block;
-    padding: 5px;
+    padding: 10px 16px;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s ease;
   }
 
   .submenu li a:hover {
-    /* optional hover styles */
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .menu-item:last-child a {
