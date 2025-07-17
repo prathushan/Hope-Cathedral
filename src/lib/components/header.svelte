@@ -108,49 +108,47 @@
     {#if liveService?.startTime}
       <div class="countdown">
         <h2 class="countdown-title">{liveService.title}</h2>
-        <div class="time-boxes">
+        <div class="slide-timer">
           <!-- Days -->
-          <div class="time-box">
-            <div class="flip-card {animateDays ? 'flipping' : ''}">
-              <div class="flip-card-inner">
-                <div class="flip-card-front"><span class="value">{displayDays}</span></div>
-                <div class="flip-card-back"><span class="value">{days}</span></div>
-              </div>
+          <div class="time-unit">
+            <div class="time-card {animateDays ? 'slide' : ''}">
+              <div class="current">{displayDays < 10 ? `0${displayDays}` : displayDays}</div>
+              <div class="next">{days < 10 ? `0${days}` : days}</div>
             </div>
-            <span class="label">DAYS</span>
+            <span class="unit-label">DAYS</span>
           </div>
+          
+          <div class="time-separator">:</div>
           
           <!-- Hours -->
-          <div class="time-box">
-            <div class="flip-card {animateHours ? 'flipping' : ''}">
-              <div class="flip-card-inner">
-                <div class="flip-card-front"><span class="value">{displayHours}</span></div>
-                <div class="flip-card-back"><span class="value">{hours}</span></div>
-              </div>
+          <div class="time-unit">
+            <div class="time-card {animateHours ? 'slide' : ''}">
+              <div class="current">{displayHours < 10 ? `0${displayHours}` : displayHours}</div>
+              <div class="next">{hours < 10 ? `0${hours}` : hours}</div>
             </div>
-            <span class="label">HRS</span>
+            <span class="unit-label">HOURS</span>
           </div>
+          
+          <div class="time-separator">:</div>
           
           <!-- Minutes -->
-          <div class="time-box">
-            <div class="flip-card {animateMinutes ? 'flipping' : ''}">
-              <div class="flip-card-inner">
-                <div class="flip-card-front"><span class="value">{displayMinutes}</span></div>
-                <div class="flip-card-back"><span class="value">{minutes}</span></div>
-              </div>
+          <div class="time-unit">
+            <div class="time-card {animateMinutes ? 'slide' : ''}">
+              <div class="current">{displayMinutes < 10 ? `0${displayMinutes}` : displayMinutes}</div>
+              <div class="next">{minutes < 10 ? `0${minutes}` : minutes}</div>
             </div>
-            <span class="label">MINS</span>
+            <span class="unit-label">MINUTES</span>
           </div>
           
+          <div class="time-separator">:</div>
+          
           <!-- Seconds -->
-          <div class="time-box">
-            <div class="flip-card {animateSeconds ? 'flipping' : ''}">
-              <div class="flip-card-inner">
-                <div class="flip-card-front"><span class="value">{displaySeconds}</span></div>
-                <div class="flip-card-back"><span class="value">{seconds}</span></div>
-              </div>
+          <div class="time-unit">
+            <div class="time-card {animateSeconds ? 'slide' : ''}">
+              <div class="current">{displaySeconds < 10 ? `0${displaySeconds}` : displaySeconds}</div>
+              <div class="next">{seconds < 10 ? `0${seconds}` : seconds}</div>
             </div>
-            <span class="label">SECS</span>
+            <span class="unit-label">SECONDS</span>
           </div>
         </div>
       </div>
@@ -182,45 +180,7 @@
 </header>
 
 <style>
-  /* Existing styles remain the same until the flip card section */
-
-  /* Flip card styles */
-  .flip-card {
-    perspective: 1000px;
-    width: 50px;
-    height: 50px;
-    position: relative;
-  }
-
-  .flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-  }
-
-  .flip-card.flipping .flip-card-inner {
-    transform: rotateX(180deg);
-  }
-
-  .flip-card-front, .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #e0e0e0;
-    border-radius: 6px;
-  }
-
-  .flip-card-back {
-    transform: rotateX(180deg);
-  }
-
-  /* Rest of the existing styles remain unchanged */
+  /* Existing header styles remain the same */
   .header {
     position: fixed;
     width: 100%;
@@ -243,43 +203,105 @@
     align-items: flex-start;
   }
 
+  /* New Slide Timer Styles */
   .countdown {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 0.5rem;
   }
 
   .countdown-title {
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #333;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #555;
     margin: 0 0 0.2rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
-  .time-boxes {
+  .slide-timer {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 0.4rem;
   }
 
-  .time-box {
+  .time-unit {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 50px;
   }
 
-  .time-box .value {
-    font-size: 1rem;
+  .time-card {
+    position: relative;
+    width: 2.5rem;
+    height: 2rem;
+    background: #f8f8f8;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #226DAB;
+  }
+
+  .time-card .current,
+  .time-card .next {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .time-card .current {
+    top: 0;
+    background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+  }
+
+  .time-card .next {
+    top: 100%;
+    background: linear-gradient(to bottom, #e8e8e8, #f8f8f8);
+  }
+
+  .time-card.slide .current {
+    animation: slide-up 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  .time-card.slide .next {
+    animation: slide-up 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  @keyframes slide-up {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+  }
+
+  .unit-label {
+    font-size: 0.6rem;
+    color: #777;
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  .time-separator {
+    font-size: 1.2rem;
+    color: #226DAB;
+    margin-bottom: 0.8rem;
     font-weight: bold;
-    color: #000;
   }
 
-  .time-box .label {
-    font-size: 0.75rem;
-    color: #555;
-    margin-top: 0.2rem;
+  /* Glow effect on hover */
+  .time-unit:hover .time-card {
+    box-shadow: 0 0 10px rgba(34, 109, 171, 0.5);
+    transition: box-shadow 0.3s ease;
   }
 
+  /* Rest of the existing styles remain unchanged */
   .nav .menu {
     list-style: none;
     display: flex;
