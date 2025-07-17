@@ -146,7 +146,7 @@
 
   .footer-menu h4 {
     margin-bottom: 0.75rem;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
   }
 
@@ -154,6 +154,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    font-size:14px;
   }
 
   .footer-menu li {
@@ -164,6 +165,7 @@
     color: #000;
     text-decoration: none;
     transition: color 0.3s;
+    font-weight:500 !important;
   }
 
   .footer-menu a:hover {
@@ -206,6 +208,7 @@
     z-index: 2;
     position: relative;
     text-align:justify;
+    font-weight:500 !important;
   }
 
   @media (max-width: 600px) {

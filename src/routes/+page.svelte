@@ -2,7 +2,6 @@
   import { urlFor } from '../lib/utils/image-builder'; 
   export let data;
   import { onMount } from 'svelte';
-
   const carouselBlock = data.page.content.find(
     c => c.label === 'card section 3'
   )?.block[0];
@@ -133,26 +132,13 @@
 
 {#if imageWithTextBlock}
   <section class="image-with-text">
-    <div class="video-column">
-      {#if userInteracted}
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${sideVideoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${sideVideoId}&playsinline=1`}
-          frameborder="0"
-          allow="autoplay; encrypted-media"
-          allowfullscreen
-          title="second-video"
-          loading="lazy"
-        ></iframe>
-      {:else}
-        <div class="video-placeholder" style={`background-image: url(https://img.youtube.com/vi/${sideVideoId}/maxresdefault.jpg)`}></div>
-      {/if}
-    </div>
     <div class="text-column">
       <h2>{imageWithTextBlock.title}</h2>
-      <p>{imageWithTextBlock.description}</p>
+      <p>{@html imageWithTextBlock.description.replace(/\n/g, '<br>')}</p>
     </div>
   </section>
 {/if}
+
 
 <!-- CARD SECTION 2 -->
 {#if cardSection2}
@@ -390,15 +376,18 @@
 
   .text-column h2 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
     color:#226DAB;
     text-transform:uppercase;
+    text-align:center;
   }
 
   .text-column p {
-    font-size: 1.1rem;
-    color: #444;
-    line-height: 1.6;
+    font-size: 5rem;
+    line-height: 1.3;
+     text-align:center;
+    text-transform:uppercase;
+    font-weight:bold;
+    margin-top:0;
   }
 
   .card-section-2 {

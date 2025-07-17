@@ -23,6 +23,9 @@
 	"dependencies": {
 		"@sanity/client": "^6.29.1",
 		"@sanity/image-url": "^1.1.0",
-		"groq": "^3.98.1"
+		"@studio-freight/lenis": "^1.0.42",
+		"groq": "^3.98.1",
+		"gsap": "^3.13.0",
+		"split-type": "^0.3.4"
 	}
 }
