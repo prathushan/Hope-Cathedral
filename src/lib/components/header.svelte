@@ -281,7 +281,7 @@
 
   .unit-label {
     font-size: 0.6rem;
-    color: #777;
+    color: #555;
     margin-top: 0.3rem;
     text-transform: uppercase;
     letter-spacing: 1px;
