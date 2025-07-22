@@ -136,7 +136,7 @@
   }
 
   .hero-wave .shape-fill {
-    fill: #ffffff;
+    fill: #f8fafc;
   }
 
   /* Container */

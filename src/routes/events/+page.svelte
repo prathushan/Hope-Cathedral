@@ -129,7 +129,7 @@
   }
 
   .hero-wave .shape-fill {
-    fill: #ffffff;
+    fill: #F9FBFD;
   }
   /* Animations */
   @keyframes fadeInUp {
