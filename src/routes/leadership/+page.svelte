@@ -188,7 +188,6 @@
 
   .card {
     text-align: center;
-    background-color: #f8f8f8;
     padding: 1rem;
     border-radius: 8px;
     transition: transform 0.2s;
