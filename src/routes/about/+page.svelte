@@ -1,53 +1,44 @@
 <script lang="ts">
   export let data: {
-    banner: {
-      title: string;
-      backgroundImage?: {
-        asset: {
-          _ref: string;
-        };
-      };
-    } | null;
-    
-    ourStoryCard: {
-      title: string;
-      paragraph: string;
-      image?: {
-        asset: {
-          _ref: string;
-        };
-      };
-    } | null;
-    
+    banner: { title: string; backgroundImage?: { asset: { _ref: string } } } | null;
+    ourStoryCard: { title: string; paragraph: string; image?: { asset: { _ref: string } } } | null;
     nextStepBlock: {
       label: string;
-      textBlock: {
-        text: {
-          children: { text: string }[];
-        }[];
-      };
-      buttonBlock: {
-        text: string;
-      };
-      image?: {
-        asset: {
-          _ref: string;
-        };
-      };
+      textBlock: { text: { children: { text: string }[] }[] };
+      buttonBlock: { text: string };
+      image?: { asset: { _ref: string } };
     } | null;
-
     ourBeliefsBlock: {
       label: string;
       block: {
         _type: string;
-        cards: {
-          _key: string;
-          title: string;
-          paragraph: string;
-        }[];
+        cards: { _key: string; title: string; paragraph: string }[];
+      }[];
+    } | null;
+    coreValuesBlock: {
+      label: string;
+      block: {
+        _type: string;
+        faqs: { _key: string; question: string; answer: string }[];
       }[];
     } | null;
   };
+
+  const beliefs = data.ourBeliefsBlock?.block?.[0]?.cards ?? [];
+  const faqs = data.coreValuesBlock?.block?.[0]?.faqs ?? [];
+
+  let activeTab = 0;
+  // let activeFAQ: number | null = null;
+
+  // function toggleFAQ(index: number) {
+  //   activeFAQ = activeFAQ === index ? null : index;
+  // }
+
+ let activeFAQ = null;
+
+function toggleFAQ(index) {
+  activeFAQ = activeFAQ === index ? null : index;
+} 
 
   function getSanityImageUrl(ref: string): string {
     if (!ref) return '';
@@ -56,7 +47,7 @@
     return `https://cdn.sanity.io/images/8a8pria4/production/${id}.${format}`;
   }
 
-    let activeTab = 0;
+   
 </script>
 
 
@@ -157,10 +148,77 @@
   </section>
 {/if}
 
+<!-- Our Core values Block  -->
+
+{#if faqs.length > 0}
+  <section class="faq-section">
+    <h2 class="faq-heading">{data.coreValuesBlock?.label ?? 'Core Values'}</h2>
+
+    <div class="faq-columns">
+      <!-- First 5 items -->
+      <div class="faq-column">
+        {#each faqs.slice(0, 5) as faq, i}
+          <div
+            class="faq-item"
+            class:active={activeFAQ === i}
+            on:click={() => toggleFAQ(i)}
+          >
+            <div class="faq-question-wrapper">
+              <span class="faq-icon">{activeFAQ === i ? '-' : '+'}</span>
+              <span class="faq-question">{faq.question}</span>
+            </div>
+
+            {#if activeFAQ === i}
+              <div class="faq-answer">
+                {#each faq.answer as block}
+                  {#each block.children as span}
+                    {@html span.text}
+                  {/each}
+                  <br />
+                {/each}
+              </div>
+            {/if}
+          </div>
+        {/each}
+      </div>
+
+      <!-- Remaining items -->
+      <div class="faq-column">
+        {#each faqs.slice(5) as faq, j}
+          <div
+            class="faq-item"
+            class:active={activeFAQ === j + 5}
+            on:click={() => toggleFAQ(j + 5)}
+          >
+            <div class="faq-question-wrapper">
+              <span class="faq-icon">{activeFAQ === j + 5 ? '-' : '+'}</span>
+              <span class="faq-question">{faq.question}</span>
+            </div>
+
+            {#if activeFAQ === j + 5}
+              <div class="faq-answer">
+                {#each faq.answer as block}
+                  {#each block.children as span}
+                    {@html span.text}
+                  {/each}
+                  <br />
+                {/each}
+              </div>
+            {/if}
+          </div>
+        {/each}
+      </div>
+    </div>
+  </section>
+{/if}
 
 
 
 <style>
+
+.body {
+  font-family: 'Hope-GT-US-Regular', Roboto, sans-serif
+}
  .banner-section {
   position: relative;
   padding: 0;
@@ -445,5 +503,94 @@
   }
 }
 
+/* core values css */
+.faq-section {
+  background: #f7fbff;
+  padding: 60px 20px;
+font-family: 'Hope-GT-US-Regular', Roboto, sans-serif
+}
+
+.faq-heading {
+  text-align: center;
+  font-size: 2rem;
+  color: #1565c0;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+.faq-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.faq-column {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faq-item {
+  background: #ffffff;
+  border: 1px solid #cfe8ff;
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  max-height: 80px;
+  position: relative;
+}
+
+.faq-item:hover {
+  background: #eaf4ff;
+  transform: scale(1.02);
+}
+
+.faq-item.active {
+  max-height: 300px;
+}
+
+.faq-question-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.faq-icon {
+  font-size: 18px;
+  color: #0d6efd;
+  margin-right: 10px;
+}
+
+.faq-question {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1c3f72;
+}
+
+.uppercase-blue {
+  color: #0d6efd;
+}
+
+.faq-answer {
+  margin-top: 12px;
+  color: #333;
+  display: block;
+  font-family: 'Hope-GT-US-Regular', Roboto, sans-serif
+}
+
+@media (max-width: 768px) {
+  .faq-columns {
+    flex-direction: column;
+  }
+
+  .faq-column {
+    flex: 1 1 100%;
+  }
+}
 
 </style>
