@@ -25,24 +25,15 @@
 {#if heroBlock}
   <section class="hero-section">
     <div class="hero-content">
-      <h1>{heroBlock.title}</h1>
+      <h1 class="hero-title">{heroBlock.title}</h1>
       {#if heroBlock.subtitle}
-        <p>{heroBlock.subtitle}</p>
+        <p class="hero-subtitle">{heroBlock.subtitle}</p>
       {/if}
-      {#if heroBlock.buttons?.length}
-        <div class="hero-buttons">
-          {#each heroBlock.buttons as button}
-            <a
-              class="hero-btn"
-              href={button.url}
-              target={button.openInNewTab ? '_blank' : '_self'}
-              rel={button.openInNewTab ? 'noopener noreferrer' : ''}
-            >
-              {button.text}
-            </a>
-          {/each}
-        </div>
-      {/if}
+    </div>
+    <div class="hero-wave">
+      <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+      </svg>
     </div>
   </section>
 {/if}
@@ -86,45 +77,72 @@
 </div>
 
 <style>
+ /* Hero Section */
   .hero-section {
-    padding: 8rem 2rem;
-    background: linear-gradient(to right, #e0eafc, #cfdef3);
+    position: relative;
+    padding: 10rem 2rem 8rem;
+    background:#d2e0f5;
     text-align: center;
-  }
-
-  .hero-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0rem;
-    color: #003366;
-    margin-top:10%;
-  }
-
-  .hero-content p {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 2rem;
-  }
-
-  .hero-buttons {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .hero-btn {
-    background: #0047ab;
     color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background 0.3s ease;
+    overflow: hidden;
   }
 
-  .hero-btn:hover {
-    background: #003080;
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
   }
+
+  .hero-title {
+    font-size: clamp(1.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    animation: fadeInUp 0.8s ease-out;
+    color:#003366;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+
+  .hero-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+  }
+
+  .hero-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 100px;
+  }
+
+  .hero-wave .shape-fill {
+    fill: #ffffff;
+  }
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
 
   .location-cards {
     display: grid;

@@ -37,9 +37,6 @@
 </script>
 
 <section class="event-banner">
-  {#if event.featuredImage?.asset?.url}
-    <img class="banner-img" src={event.featuredImage.asset.url} alt={event.title} />
-  {/if}
   <div class="banner-overlay"></div>
   <div class="banner-content">
     <div class="container">
@@ -50,6 +47,9 @@
 
 <section class="event-main container">
   <div class="event-content">
+  {#if event.featuredImage?.asset?.url}
+    <img class="banner-img" src={event.featuredImage.asset.url} alt={event.title} />
+  {/if}
     {#if event.description}
       <div class="description">
         {@html event.description}
@@ -107,6 +107,10 @@
     <form class="registration-form" on:submit|preventDefault={handleSubmit}>
       <h3>Register for this event</h3>
       <div class="form-group">
+        <label for="event-name">Event name</label>
+        <input id="event-name" type="text" placeholder="event-name" bind:value={event.title} required readonly/>
+      </div>
+      <div class="form-group">
         <label for="name">Full Name</label>
         <input id="name" type="text" placeholder="Your Name" bind:value={name} required />
       </div>
@@ -125,7 +129,6 @@
 
 <style>
   :global(body) {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
     color: #333;
     margin: 0;
@@ -147,39 +150,32 @@
     max-height: 800px;
     overflow: hidden;
     margin-bottom: 3rem;
+    background-color:#d2e0f5;
   }
 
   .banner-img {
     width: 100%;
-    height: 100%;
+    height:35%;
     object-fit: cover;
     object-position: center;
   }
 
-  .banner-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
-  }
 
   .banner-content {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 4rem 0;
+    padding: 5rem 0;
     color: white;
   }
 
   .banner-content h1 {
     font-size: 3rem;
     font-weight: 700;
-    margin: 0 0 1rem;
     line-height: 1.2;
-    max-width: 800px;
+    text-align:center;
+    color:#003366;
   }
 
   .event-date-banner {
@@ -218,13 +214,11 @@
   }
 
   .description {
-    font-size: 1.1rem;
+    font-size: 1rem;
     line-height: 1.8;
-    color: #444;
-  }
-
-  .description :global(p) {
-    margin-bottom: 1.5rem;
+    color: #000000;
+    font-weight:300;
+    margin-top:10px;
   }
 
   .description :global(a) {
@@ -261,7 +255,7 @@
 
   .calendar-date {
     display: flex;
-    background: #0066cc;
+    background: #226EAB;
     color: white;
     padding: 1.5rem;
     justify-content: center;
@@ -320,7 +314,7 @@
   }
 
   .detail-item svg {
-    color: #0066cc;
+    color: #226EAB;
     flex-shrink: 0;
     margin-top: 2px;
   }
@@ -336,8 +330,9 @@
 
   .detail-value {
     font-size: 0.95rem;
-    color: #333;
+    color: #000000;
     line-height: 1.5;
+    font-weight:500;
   }
 
   /* Registration Form */
@@ -385,7 +380,7 @@
   .registration-form button {
     width: 100%;
     padding: 1rem;
-    background: #0066cc;
+    background: #226EAB;
     color: white;
     font-weight: 600;
     border: none;
