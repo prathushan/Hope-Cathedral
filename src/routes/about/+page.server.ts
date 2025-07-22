@@ -23,12 +23,22 @@ export const load: PageServerLoad = async () => {
 	const buttonBlock = nextStepBlockRaw?.block?.find((b) => b._type === 'buttonBlock') ?? null;
 	const image = nextStepBlockRaw?.block?.find((b) => b.image)?.image ?? null;
     const ourBeliefsBlock = aboutPage?.content?.find(
-  (block) => block.label?.trim().toLowerCase() === "our beliefs"
-);
+    (block) => block.label?.trim().toLowerCase() === "our beliefs"
+    );
+
+    const coreValuesBlock = aboutPage?.content?.find(
+    (block) => block.label?.trim().toLowerCase() === "our core values"
+    );
+
+
+
+
 	return {
   banner,
   ourStoryCard,
-  ourBeliefsBlock, // <-- add this
+  ourBeliefsBlock, 
+  coreValuesBlock, 
+  
   nextStepBlock: {
     label: nextStepBlockRaw?.label ?? '',
     textBlock,
