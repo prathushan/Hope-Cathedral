@@ -13,20 +13,36 @@
     }
     return { firstRow, rest };
   }
+  const heroBlock = content.find(
+  (c) => c._type === 'builderBlock' && c.block?.[0]?._type === 'heroSection'
+)?.block?.[0];
 </script>
 
+{#if heroBlock}
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">{heroBlock.title}</h1>
+      {#if heroBlock.subtitle}
+        <p class="hero-subtitle">{heroBlock.subtitle}</p>
+      {/if}
+    </div>
+    <div class="hero-wave">
+      <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+      </svg>
+    </div>
+  </section>
+{/if}
+
 {#each content as section (section._key)}
+
+ 
+
+
   <section class="section">
     {#each section.block as block (block._key)}
-      {#if block._type === 'imageBlock'}
-        <div class="banner-image">
-          <img
-            src={urlFor(block.image.asset).width(1600).auto('format').url()}
-            alt={block.altText || 'Banner'}
-          />
-        </div>
 
-      {:else if block._type === 'imageWithText'}
+    {#if block._type === 'imageWithText'}
         <div class="image-text-block">
           <div class="image-col">
             <img
@@ -44,6 +60,8 @@
             {/if} -->
           </div>
         </div>
+
+
 
       {:else if block._type === 'cardSection'}
         <div class="card-section">
@@ -215,5 +233,71 @@
     background: #fff4f4;
     border-left: 4px solid red;
     margin-top: 1rem;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    position: relative;
+    padding: 10rem 2rem 8rem;
+    background:#d2e0f5;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+  }
+ 
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+ 
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    animation: fadeInUp 0.8s ease-out;
+    color:#003366;
+  }
+ 
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+ 
+  .hero-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+  }
+ 
+  .hero-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 100px;
+  }
+ 
+  .hero-wave .shape-fill {
+    fill: #ffffff;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
